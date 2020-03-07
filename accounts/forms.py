@@ -24,3 +24,12 @@ class UserCreationForm(forms.ModelForm):
 			user.save()
 		return user
 
+class UserChangeForm(forms.ModelForm):
+	password = ReadOnlyPasswordHashField()
+
+	class Meta:
+		model = User
+		fields = ('email', 'password', 'full_name')
+
+	def clean_password(self):
+		return self.initial['password']

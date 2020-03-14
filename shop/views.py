@@ -4,7 +4,7 @@ from .models import Category, Product
 
 def home(request, slug=None):
 	products = Product.objects.filter(available=True)
-	categories = Category.objects.all()
+	categories = Category.objects.filter(is_sub=False)
 	if slug:
 		category = get_object_or_404(Category, slug=slug)
 		products = products.filter(category=category)
@@ -14,3 +14,22 @@ def home(request, slug=None):
 def product_detail(request, slug):
 	product = get_object_or_404(Product, slug=slug)
 	return render(request, 'shop/product_detail.html', {'product':product})
+
+
+
+
+
+
+
+'''
+	Mobile
+		-Nokia
+		-Htc
+	
+	Laptop
+		-Asus
+		-Lenovo
+
+
+	htc m8
+'''

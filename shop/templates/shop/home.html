@@ -4,7 +4,16 @@
 
 {% block content %}
     {% for category in categories %}
-        <a href="{{ category.get_absolute_url }}" class="btn btn-primary">{{ category.name }}</a>
+
+        <div class="btn-group">
+            <a href="{{ category.get_absolute_url }}" class="btn btn-danger">{{ category.name }}</a>
+            <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+            <div class="dropdown-menu">
+                {% for sub in category.scategory.all %}
+                    <a class="dropdown-item" href="{{ sub.get_absolute_url }}">{{ sub.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
     {% endfor %}
 
     <br/><br/><br/>

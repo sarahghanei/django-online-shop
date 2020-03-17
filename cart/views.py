@@ -6,6 +6,7 @@ from django.views.decorators.http import require_POST
 
 
 def detail(request):
+	cart = Cart(request)
 	return render(request, 'cart/detail.html')
 
 @require_POST

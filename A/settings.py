@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
+    'orders.apps.OrdersConfig',
     'sorl.thumbnail',
 ]
 
@@ -64,7 +65,7 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_sMODEL = 'accounts.User'
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',

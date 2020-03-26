@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Order, OrderItem
+from .models import Order, OrderItem, Coupon
 from cart.cart import Cart
 from suds.client import Client
 from django.http import HttpResponse
 from django.contrib import messages
 from .forms import CouponForm
+from django.views.decorators.http import require_POST
+from django.utils import timezone
 
 
 @login_required
@@ -57,3 +59,27 @@ def verify(request):
 			return HttpResponse('Transaction failed.')
 	else:
 		return HttpResponse('Transaction failed or canceled by user')
+
+@require_POST
+def coupon_apply(request, order_id):
+	now = timezone.now()
+	form = CouponForm(request.POST)
+	if form.is_valid():
+		code = form.cleaned_data['code']
+		try:
+			coupon = Coupon.objects.get(code__iexact=code, valid_from__lte=now, valid_to__gte=now, active=True)
+		except Coupon.DoesNotExist:
+			messages.error(request, 'This coupon does not exist', 'danger')
+			return redirect('orders:detail', order_id)
+		order = Order.objects.get(id=order_id)
+		order.discount = coupon.discount
+		order.save()
+	return redirect('orders:detail', order_id)
+
+
+
+
+
+
+
+

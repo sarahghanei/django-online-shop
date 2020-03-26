@@ -5,12 +5,14 @@ from cart.cart import Cart
 from suds.client import Client
 from django.http import HttpResponse
 from django.contrib import messages
+from .forms import CouponForm
 
 
 @login_required
 def detail(request, order_id):
 	order = get_object_or_404(Order, id=order_id)
-	return render(request, 'orders/order.html', {'order':order})
+	form = CouponForm()
+	return render(request, 'orders/order.html', {'order':order, 'form':form})
 
 @login_required
 def order_create(request):

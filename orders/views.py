@@ -68,13 +68,16 @@ def coupon_apply(request, order_id):
 		code = form.cleaned_data['code']
 		try:
 			coupon = Coupon.objects.get(code__iexact=code, valid_from__lte=now, valid_to__gte=now, active=True)
+			
+			order = Order.objects.get(id=order_id)
+			order.discount = coupon.discount
+			order.save()
+			return redirect('orders:detail', order_id)
 		except Coupon.DoesNotExist:
 			messages.error(request, 'This coupon does not exist', 'danger')
 			return redirect('orders:detail', order_id)
-		order = Order.objects.get(id=order_id)
-		order.discount = coupon.discount
-		order.save()
-	return redirect('orders:detail', order_id)
+
+	
 
 
 

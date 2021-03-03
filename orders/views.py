@@ -22,7 +22,7 @@ def order_create(request):
 	order = Order.objects.create(user=request.user)
 	for item in cart:
 		OrderItem.objects.create(order=order, product=item['product'], price=item['price'], quantity=item['quantity'])
-		cart.clear()
+	cart.clear()
 	return redirect('orders:detail', order.id)
 
 
